@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+    # Run a command against the development stage of the image
+    command: yarn --cwd api/rest start:dev;
+    ports:
+      - 5000:5000
+  admin:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+    # Run a command against the development stage of the image
+    command: yarn --cwd admin/rest dev;
+    ports:
+      - 3002:3002
+  shop:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    volumes:
+      - .:/usr/src/app
+    # Run a command against the development stage of the image
+    command: yarn --cwd shop dev:rest;
+    ports:
+      - 3003:3003
