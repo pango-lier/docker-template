@@ -1,0 +1,46 @@
+version: '3.4'
+
+services:
+  adminer:
+    container_name: adminer
+    image: adminer:latest
+    ports:
+      - 8083:8080
+    restart: unless-stopped
+    networks:
+      - adminer_mysql_redis
+    depends_on:
+      - db
+
+  db:
+    container_name: mysql
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - adminer_mysql_redis
+    ports:
+      - 3302:3306
+
+  redis:
+    container_name: redis
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - redisdata:/data
+    networks:
+      - adminer_mysql_redis
+    ports:
+      - 6377:6379
+volumes:
+  dbdata:
+  redisdata:
+
+
+networks:
+  adminer_mysql_redis:
+    name: adminer_mysql_redis
