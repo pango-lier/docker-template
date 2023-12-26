@@ -18,12 +18,13 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: 'root'
+      POSTGRES_USER: 'postgres' 
     volumes:
       - dbdata:/var/lib/postgres
     networks:
       - adminer_postgres_redis
     ports:
-      - 3302:8080
+      - 5432:5432
 
   # redis:
   #   container_name: redis
