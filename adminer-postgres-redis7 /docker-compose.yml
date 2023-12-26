@@ -1,0 +1,45 @@
+version: '1'
+
+services:
+  # adminer:
+  #   container_name: adminer
+  #   image: adminer:latest
+  #   ports:
+  #     - 8083:8080
+  #   restart: unless-stopped
+  #   networks:
+  #     - adminer_mysql_redis
+  #   depends_on:
+  #     - db
+
+  db:
+    container_name: postgres
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: 'root'
+    volumes:
+      - dbdata:/var/lib/postgres
+    networks:
+      - adminer_postgres_redis
+    ports:
+      - 3302:8080
+
+  # redis:
+  #   container_name: redis
+  #   image: redis:7-alpine
+  #   restart: always
+  #   volumes:
+  #     - redisdata:/data
+  #   networks:
+  #     - adminer_postgres_redis
+  #   ports:
+  #     - 6377:6379
+volumes:
+  dbdata:
+  # redisdata:
+
+
+networks:
+  adminer_postgres_redis:
+    name: adminer_postgres_redis
